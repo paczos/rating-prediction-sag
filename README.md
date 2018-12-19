@@ -1,3 +1,15 @@
 # rating-prediction-sag
+Predict movie score using contents of its review.
 
-Przewidywaine ratingu/oceny na podstawie opisu tekstowego (np. recenzje filmów, produktów, etc.)
+## setup
+* pip install -r requirements.txt
+* install prosody `apt install prosody`
+* place prosody.cfg.lua in `/etc/prosody/`
+* make sure current user has access to it: 
+```bash
+chown `whoami` /etc/prosody -R
+```
+* restart prosody `systemctl restart prosody`
+* add exemplary user to prosody using 
+`prosodyctrl adduser <name>@localhost`
+
