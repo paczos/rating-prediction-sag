@@ -1,8 +1,11 @@
-from aioxmpp import PresenceShow
+import time
+
+from spade.message import Message
 
 from ClassifierAgent import ClassifierAgent
 from RatingAgent import RatingAgent
 from UserAgent import UserAgent
+from consts import SCALE_RESOLUTION
 
 """
 In this code it is assumed that you have the following users in prosody
@@ -15,29 +18,30 @@ login: class0@localhost    pass: class
 login: class1@localhost    pass: class
 login: class2@localhost    pass: class
 login: class3@localhost    pass: class
-login: class4@localhost    pass: class
 
 login: user@localhost      pass: user
-
-
- 
 """
 
 
 def main():
     user = UserAgent('user@localhost', 'user')
-    user.start()
-    user.web.start(hostname='localhost', port='10000')
-
     rating_agent = RatingAgent('rating@localhost', 'rating')
     rating_agent.start()
     rating_agent.web.start(hostname='localhost', port='10001')
-    user.presence.subscribe('rating@localhost')
 
-    classifier_agents = [ClassifierAgent('class{}'.format(i), 'class') for i in range(5)]
-    for a in classifier_agents:
-        rating_agent.presence.subscribe(str(a.jid))
+    classifier_agents = [ClassifierAgent('class{}@localhost'.format(i), 'class') for i in range(SCALE_RESOLUTION)]
+    for agent in classifier_agents:
+        rating_agent.presence.subscribe(str(agent.jid))
+        agent.start()
+
+    msg = Message(to='rating@localhost')
+    msg.set_metadata('performative', 'inform')
+    msg.body = 'a review'
+
+    time.sleep(1)
+    user.start()
+    user.web.start(hostname='localhost', port='10000')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
