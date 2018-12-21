@@ -17,7 +17,7 @@ class UserAgent(agent.Agent):
             msg = Message(to='rating@localhost')
             msg.set_metadata('performative', 'review')
             # TODO: message body should be loaded from stdin or a file:
-            msg.body = 'POIWOIAJAOIJ some review'
+            msg.body = 'some exemplary input REVIEW CONTENT'
             await self.send(msg)
 
     class FinalResults(OneShotBehaviour):
@@ -25,5 +25,6 @@ class UserAgent(agent.Agent):
             msg = await self.receive(20)
             if msg:
                 print(
-                    'final classification results are in thanks to this wounderful agent system I am using. The movie got {} mark'.format(
+                    'final classification results are in thanks to this wonderful agent system I am using. The movie '
+                    'got {} mark'.format(
                         msg.body))
