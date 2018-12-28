@@ -1,6 +1,15 @@
 # Multi-agent movie rating prediction
 Predict movie score using contents of its review.
 
+## python
+This project requires python 3.6+, so be sure you install and **use** correct version of interpreter. 
+Python 3+ commands/programs can be executed using `python3 <command/program file>`
+
+python3 installation 
+* `sudo apt-get update`
+* `sudo apt-get install python3-pip`
+
+
 ## Prosody 
 It's an xmpp server that will be used by SPADE to coordinate message exchange between agents
 
