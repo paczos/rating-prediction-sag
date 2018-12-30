@@ -6,12 +6,14 @@ from spade.message import Message
 from spade.template import Template
 
 from consts import SCALE_RESOLUTION
+import learning_func
 
 
 class RatingAgent(agent.Agent):
-    def __init__(self, jid, password):
+    def __init__(self, jid, password, vectorizer):
         super().__init__(jid, password)
         self.classification_results = []
+        self.vectorizer = vectorizer
 
     def setup(self):
         print('I am a rating agent')
@@ -35,7 +37,9 @@ class RatingAgent(agent.Agent):
                 for i in range(SCALE_RESOLUTION):
                     msg = Message(to='class{}@localhost'.format(i))
                     msg.set_metadata('performative', 'classify')
-                    msg.body = review_msg.body
+                    list1 = learning_func.prepare_review_text(review_msg.body, self.agent.vectorizer)
+                    Str1 = [",".join(item) for item in list1.astype(str)]
+                    msg.body = Str1[0];
                     await self.send(msg)
                     print('review passed to the classifier')
 

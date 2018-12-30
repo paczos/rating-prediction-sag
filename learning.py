@@ -49,6 +49,8 @@ for index, row in df.iterrows():
 reviews = df['text']
 vectorizer = CountVectorizer(max_features=1000)
 X = vectorizer.fit_transform(reviews).toarray()
+#df['text'] = X.tolist()
+print(X)
 
 for i in range(SCALE_RESOLUTION):
     df['class{}'.format(i)] = 0
@@ -57,12 +59,14 @@ for i in range(SCALE_RESOLUTION):
 for index, row in df.iterrows():
     df.loc[index, 'class{}'.format(df.loc[index, 'class'])] = 1
 
+#df.to_csv('data.csv')
+
 X_train = []
 X_test = []
 y = []
 y_train = []
 y_test = []
-#training and test sets
+#training and testing sets
 for i in range(SCALE_RESOLUTION):
     y.append(df['class{}'.format(i)])
     X_train_pom, X_test_pom, y_train_pom, y_test_pom = train_test_split(X, y[i])
@@ -70,18 +74,6 @@ for i in range(SCALE_RESOLUTION):
     X_test.append(X_test_pom)
     y_train.append(y_train_pom)
     y_test.append(y_test_pom)
-
-# y0 = df['class0']
-# y1 = df['class1']
-# y2 = df['class2']
-# y3 = df['class3']
-
-#training and test sets
-# X_train0, X_test0, y_train0, y_test0 = train_test_split(X, y0)
-# X_train1, X_test1, y_train1, y_test1 = train_test_split(X, y1)
-# X_train2, X_test2, y_train2, y_test2 = train_test_split(X, y2)
-# X_train3, X_test3, y_train3, y_test3 = train_test_split(X, y3)
-
 
 classifier = []
 y_pred = []
@@ -104,48 +96,3 @@ for i in range(SCALE_RESOLUTION):
     y_pred.append(classifier[i].predict(X_test[i]))
     accuracy.append(accuracy_score(y_test[i], y_pred[i]))
     print(accuracy[i])
-
-# classifier = BernoulliNB()
-# classifier.fit(X_train3, y_train3)
-
-# # Predict Class
-# y_pred = classifier.predict(X_test3)
-
-# # Accuracy 
-# from sklearn.metrics import accuracy_score
-# accuracy = accuracy_score(y_test3, y_pred)
-# print(accuracy)
-
-#print(vectorizer.get_feature_names())
-#print(X)
-
-
-#stemming
-# ps = PorterStemmer()
- 
-# wordsStemmed = []
-
-# for word in wordsFiltered:
-#     wordsStemmed.append(ps.stem(word))
-
-# print(wordsStemmed)
-
-
- #words = tokenizer.tokenize(reviews)
-#print(df.loc[0,'text'])
- 
-# for w in words:
-#     if w not in stop_words:
-#         wordsFiltered.append(w)
- 
-# print(wordsFiltered)
-
-# #stemming
-# ps = PorterStemmer()
- 
-# wordsStemmed = []
-
-# for word in wordsFiltered:
-#     wordsStemmed.append(ps.stem(word))
-
-# print(wordsStemmed)

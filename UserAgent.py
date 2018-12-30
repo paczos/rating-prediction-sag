@@ -2,7 +2,7 @@ from spade import agent
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
 from spade.template import Template
-
+import pandas as pd
 
 class UserAgent(agent.Agent):
     def setup(self):
@@ -17,7 +17,9 @@ class UserAgent(agent.Agent):
             msg = Message(to='rating@localhost')
             msg.set_metadata('performative', 'review')
             # TODO: message body should be loaded from stdin or a file:
-            msg.body = 'some exemplary input REVIEW CONTENT'
+            df = pd.read_csv('scale_data/scaledata/Dennis+Schwartz/subj.Dennis+Schwartz', names=['text'], sep='\t')
+            msg.body = df.loc[0,'text']
+            #msg.body = 'some exemplary input REVIEW CONTENT'
             await self.send(msg)
 
     class FinalResults(OneShotBehaviour):
