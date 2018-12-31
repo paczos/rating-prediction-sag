@@ -4,6 +4,7 @@ from spade.message import Message
 from spade.template import Template
 import pandas as pd
 
+
 class UserAgent(agent.Agent):
     def setup(self):
         self.add_behaviour(self.DispatchToReview())
@@ -16,10 +17,8 @@ class UserAgent(agent.Agent):
         async def run(self):
             msg = Message(to='rating@localhost')
             msg.set_metadata('performative', 'review')
-            # TODO: message body should be loaded from stdin or a file:
             df = pd.read_csv('scale_data/scaledata/Dennis+Schwartz/subj.Dennis+Schwartz', names=['text'], sep='\t')
-            msg.body = df.loc[0,'text']
-            #msg.body = 'some exemplary input REVIEW CONTENT'
+            msg.body = df.loc[0, 'text']
             await self.send(msg)
 
     class FinalResults(OneShotBehaviour):

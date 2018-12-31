@@ -25,13 +25,14 @@ login: user@localhost      pass: user
 
 
 def main():
-    classifier, vectorizer = learning_func.train_classifiers( 'bayes', 'data.csv' )
+    classifier, vectorizer = learning_func.train_classifiers('bayes', 'data.csv')
     user = UserAgent('user@localhost', 'user')
     rating_agent = RatingAgent('rating@localhost', 'rating', vectorizer)
     rating_agent.start()
     rating_agent.web.start(hostname='localhost', port='10001')
 
-    classifier_agents = [ClassifierAgent('class{}@localhost'.format(i), 'class', classifier[i]) for i in range(SCALE_RESOLUTION)]
+    classifier_agents = [ClassifierAgent('class{}@localhost'.format(i), 'class', classifier[i]) for i in
+                         range(SCALE_RESOLUTION)]
     for agent in classifier_agents:
         rating_agent.presence.subscribe(str(agent.jid))
         agent.start()

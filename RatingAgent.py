@@ -38,13 +38,13 @@ class RatingAgent(agent.Agent):
                     msg = Message(to='class{}@localhost'.format(i))
                     msg.set_metadata('performative', 'classify')
                     list1 = learning_func.prepare_review_text(review_msg.body, self.agent.vectorizer)
-                    Str1 = [",".join(item) for item in list1.astype(str)]
-                    msg.body = Str1[0];
+                    str1 = [','.join(item) for item in list1.astype(str)]
+                    msg.body = str1[0]
                     await self.send(msg)
                     print('review passed to the classifier')
 
             else:
-                print('ratingagent: no review')
+                print('RatingAgent: no review')
 
     class ReceiveClassification(PeriodicBehaviour):
         async def run(self):
