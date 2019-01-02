@@ -58,10 +58,10 @@ for index, row in df.iterrows():
 
 # creating bag of words
 reviews = df['text']
-vectorizer = CountVectorizer(max_features=1000)
+vectorizer = CountVectorizer(max_features=1000, ngram_range=(2,2))
 X = vectorizer.fit_transform(reviews).toarray()
 # df['text'] = X.tolist()
-print(X)
+print(vectorizer.get_feature_names())
 
 for i in range(SCALE_RESOLUTION):
     df['class{}'.format(i)] = 0
