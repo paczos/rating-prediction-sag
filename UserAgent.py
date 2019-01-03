@@ -17,8 +17,8 @@ class UserAgent(agent.Agent):
         async def run(self):
             msg = Message(to='rating@localhost')
             msg.set_metadata('performative', 'review')
-            df = pd.read_csv('scale_data/scaledata/Dennis+Schwartz/subj.Dennis+Schwartz', names=['text'], sep='\t')
-            msg.body = df.loc[0, 'text']
+            df = pd.read_csv('reviews.csv')
+            msg.body = df.iloc[0, 1]
             await self.send(msg)
 
     class FinalResults(OneShotBehaviour):

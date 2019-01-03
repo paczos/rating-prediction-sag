@@ -14,21 +14,17 @@ from sklearn.naive_bayes import BernoulliNB
 from consts import SCALE_RESOLUTION
 
 file_paths = [
-    'scale_data/scaledata/Dennis+Schwartz/subj.Dennis+Schwartz']
-# , 'scale_data/scaledata/Scott+Renshaw/subj.Scott+Renshaw',
+ 'scale_data/scaledata/Dennis+Schwartz/subj.Dennis+Schwartz',
+ 'scale_data/scaledata/Scott+Renshaw/subj.Scott+Renshaw']
 # 'scale_data/scaledata/James+Berardinelli/subj.James+Berardinelli']
-# , 'scale_data/scaledata/Steve+Rhodes/subj.Steve+Rhodes']
+#  'scale_data/scaledata/Steve+Rhodes/subj.Steve+Rhodes']
 file_paths_ratings = [
-    'scale_data/scaledata/Dennis+Schwartz/label.4class.Dennis+Schwartz']
-# , 'scale_data/scaledata/Scott+Renshaw/label.4class.Scott+Renshaw',
-# 'scale_data/scaledata/James+Berardinelli/label.4class.James+Berardinelli']
-# #, 'scale_data/scaledata/Steve+Rhodes/label.4class.Steve+Rhodes']
-# df = pd.read_csv('scale_data/scaledata/Scott+Renshaw/subj.Scott+Renshaw', names=['text'], sep='\t')
-# print(df)
+  'scale_data/scaledata/Dennis+Schwartz/label.4class.Dennis+Schwartz',
+  'scale_data/scaledata/Scott+Renshaw/label.4class.Scott+Renshaw']
+ # 'scale_data/scaledata/James+Berardinelli/label.4class.James+Berardinelli']
+ # 'scale_data/scaledata/Steve+Rhodes/label.4class.Steve+Rhodes']
 
 # concatenate all reviews
-
-
 df_list = []
 for filepath in file_paths:
     df = pd.read_csv(filepath, names=['text'], sep='\t')
@@ -42,7 +38,7 @@ for filepath in file_paths_ratings:
 df_class = pd.concat(df_list_class, ignore_index=True)
 df = pd.concat(df_list, ignore_index=True)
 df['class'] = df_class['class']
-# print(df)
+#print(df_class)
 
 # delete stop words and signs, tokenization and stemming
 stop_words = set(stopwords.words('english'))
@@ -58,10 +54,9 @@ for index, row in df.iterrows():
 
 # creating bag of words
 reviews = df['text']
-vectorizer = CountVectorizer(max_features=1000, ngram_range=(2,2))
+vectorizer = CountVectorizer(max_features=1000) #ngram_range=(2,2)
 X = vectorizer.fit_transform(reviews).toarray()
-# df['text'] = X.tolist()
-print(vectorizer.get_feature_names())
+#print(vectorizer.get_feature_names()) 
 
 for i in range(SCALE_RESOLUTION):
     df['class{}'.format(i)] = 0
@@ -69,8 +64,6 @@ for i in range(SCALE_RESOLUTION):
 # add classes for four classifiers
 for index, row in df.iterrows():
     df.loc[index, 'class{}'.format(df.loc[index, 'class'])] = 1
-
-# df.to_csv('data.csv')
 
 x_train = []
 x_test = []
