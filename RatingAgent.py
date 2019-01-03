@@ -1,9 +1,9 @@
-from statistics import mean
-
 from spade import agent
 from spade.behaviour import OneShotBehaviour, PeriodicBehaviour
 from spade.message import Message
 from spade.template import Template
+
+from nltk.tokenize import RegexpTokenizer
 
 from consts import SCALE_RESOLUTION
 import learning_func
@@ -57,7 +57,10 @@ class RatingAgent(agent.Agent):
             rating_msg = await self.receive(20)
             if rating_msg:
                 print('wow, mark received from {} and the result is {}'.format(rating_msg.sender, rating_msg.body))
-                self.agent.classification_results.append(float(rating_msg.body))
+                tokenizer = RegexpTokenizer('\d')
+                rate = tokenizer.tokenize(rating_msg.sender.__str__())
+                rate = int(rate[0]) + 1
+                self.agent.classification_results.append(float(rating_msg.body)*float(rate))
             else:
                 print('so loooong, MARIANNEEE! Classification timeout')
 
@@ -69,9 +72,15 @@ class RatingAgent(agent.Agent):
                 msg = Message(to='user@localhost')
                 msg.set_metadata('performative', 'finish')
                 print(self.agent.classification_results)
-                m = mean(self.agent.classification_results)
+                sum = 0
+                count = 0
+                for x in self.agent.classification_results:
+                    if x!=0:
+                        sum = sum + x
+                        count += 1
+                m = (sum/count) - 1
                 print(m)
-                msg.body = str(m)
+                msg.body = str(int(m))
                 await self.send(msg)
             else:
                 print('no accumulated results')
