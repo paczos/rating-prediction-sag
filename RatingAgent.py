@@ -1,3 +1,5 @@
+from statistics import mean
+
 from spade import agent
 from spade.behaviour import OneShotBehaviour, PeriodicBehaviour
 from spade.message import Message
@@ -57,10 +59,10 @@ class RatingAgent(agent.Agent):
             rating_msg = await self.receive(20)
             if rating_msg:
                 print('wow, mark received from {} and the result is {}'.format(rating_msg.sender, rating_msg.body))
-                tokenizer = RegexpTokenizer('\d')
-                rate = tokenizer.tokenize(rating_msg.sender.__str__())
+                tokenizer = RegexpTokenizer(r'\d')
+                rate = tokenizer.tokenize(str(rating_msg.sender))
                 rate = int(rate[0]) + 1
-                self.agent.classification_results.append(float(rating_msg.body)*float(rate))
+                self.agent.classification_results.append(float(rating_msg.body) * float(rate))
             else:
                 print('so loooong, MARIANNEEE! Classification timeout')
 
@@ -71,16 +73,10 @@ class RatingAgent(agent.Agent):
             if res:
                 msg = Message(to='user@localhost')
                 msg.set_metadata('performative', 'finish')
-                print(self.agent.classification_results)
-                sum = 0
-                count = 0
-                for x in self.agent.classification_results:
-                    if x!=0:
-                        sum = sum + x
-                        count += 1
-                m = (sum/count) - 1
+                print('all scores:' + str(self.agent.classification_results))
+                m = mean(filter(lambda x: x != 0, self.agent.classification_results)) - 1
                 print(m)
-                msg.body = str(int(m))
+                msg.body = str(m)
                 await self.send(msg)
             else:
                 print('no accumulated results')
