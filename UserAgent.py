@@ -1,3 +1,5 @@
+import sys
+
 from spade import agent
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
@@ -18,7 +20,13 @@ class UserAgent(agent.Agent):
             msg = Message(to='rating@localhost')
             msg.set_metadata('performative', 'review')
             df = pd.read_csv('reviews.csv')
-            msg.body = df.iloc[0, 1]
+
+            review_idx = sys.argv[1]
+            if review_idx is None:
+                review_idx = 0
+            print('review idx {}'.format(review_idx))
+            review_idx = int(review_idx)
+            msg.body = df.iloc[review_idx, 1]
             await self.send(msg)
 
     class FinalResults(OneShotBehaviour):
@@ -29,3 +37,5 @@ class UserAgent(agent.Agent):
                     'final classification results are in thanks to this wonderful agent system I am using. The movie '
                     'got {} mark'.format(
                         msg.body))
+            else:
+                print('user: Rating System did not respond')
