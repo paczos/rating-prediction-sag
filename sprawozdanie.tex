@@ -1,0 +1,124 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = pl_PL
+\documentclass{article}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage[]{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{indentfirst}
+ 
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+
+\usepackage{multirow}
+\usepackage{pdfpages}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{black},
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	%numbers=left,                    
+	%numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%\date{25 listopada 2018}
+
+\author{Katarzyna Dziewulska, Paweł Paczuski, Łukasz Wereszczyński}
+
+\title{SAG, WEDT - Wyniki badań klasyfikatorów}
+	%\\{\large Sprawozdanie 1. projektu}}
+\bibliographystyle{plunsrt}
+
+
+\begin{document}
+	%\maketitle
+\pagenumbering{gobble}
+\includepdf[page={1,2,3,4}]{lol}
+\setcounter{section}{3}
+\section{Wyniki skuteczności klasyfikatora}
+	\subsection{Model recenzji w postaci \textit{bag of words}}
+	\begin{itemize}
+		\item Naiwny klasyfikator Bayes’a \\
+		
+			\begin{tabular}{|c|c|c|c|c|} \hline
+			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+			\textit{recall} & 0.55 & 0.55 & 0.58 & 0.57 \\
+			\textit{accuracy} & 0.86 & 0.61 & 0.64 & 0.84 \\ 
+			\textit{precision} & 0.51 & 0.51 & 0.45 & 0.49 \\ 
+			\textit{fallout} & 0.09 & 0.35 & 0.34 & 0.1 \\ \hline 
+		\end{tabular}
+		\item Drzewo decyzyjne \\
+		
+			\begin{tabular}{|c|c|c|c|c|} \hline
+			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+			\textit{recall} & 0.23 & 0.48 & 0.44 & 0.26 \\
+			\textit{accuracy} & 0.77 & 0.57 & 0.58 & 0.76 \\ 
+			\textit{precision} & 0.22 & 0.47 & 0.38 & 0.23 \\ 
+			\textit{fallout} & 0.13 & 0.37 & 0.35 & 0.15 \\ \hline 
+		\end{tabular}
+%		\item SVM \\
+%		
+%			\begin{tabular}{|c|c|c|c|c|} \hline
+%			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+%			\textit{recall} & 0.0 & 0.03 & 0.01 & 0.0  \\
+%			\textit{accuracy} & 0.85 & 0.60 & 0.68 & 0.85 \\ 
+%			\textit{precision} & nan & 0.50 & 0.5 & nan \\ 
+%			\textit{fallout} & 0.0 & 0.02 & 0.01 & 0.0 \\ \hline 
+%		\end{tabular}
+	\end{itemize}	
+	
+	
+	\subsection {Model recenzji w postaci bigramów}
+		\begin{itemize}
+		\item Naiwny klasyfikator Bayes’a \\
+		
+		\begin{tabular}{|c|c|c|c|c|} \hline
+			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+			\textit{recall} & 0.22 & 0.44 & 0.31 & 0.14 \\
+			\textit{accuracy} & 0.84 & 0.59 & 0.60 & 0.78 \\ 
+			\textit{precision} & 0.41 & 0.51 & 0.38 & 0.29 \\ 
+			\textit{fallout} & 0.06 & 0.30 & 0.25 & 0.07 \\ \hline 
+		\end{tabular}
+		\item Drzewo decyzyjne \\
+		
+		\begin{tabular}{|c|c|c|c|c|} \hline
+			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+			\textit{recall} & 0.13 & 0.51 & 0.41 & 0.16 \\
+			\textit{accuracy} & 0.79 & 0.56 & 0.56 & 0.78 \\ 
+			\textit{precision} & 0.20 & 0.47 & 0.36 & 0.22 \\ 
+			\textit{fallout} & 0.09 & 0.40 & 0.37 & 0.11 \\ \hline 
+		\end{tabular}
+%		\item SVM \\
+%		
+%		\begin{tabular}{|c|c|c|c|c|} \hline
+%			miara & klasyfikator 1 & klasyfikator 2 & klasyfikator 3 & klasyfikator 4 \\ \hline
+%			\textit{recall} & 0.0 & 0.0 & 0.0 & 0.0 \\
+%			\textit{accuracy} & 0.85 & 0.59 & 0.67 & 0.82 \\ 
+%			\textit{precision} & nan & nan & nan & nan \\ 
+%			\textit{fallout} & 0.0 & 0.0 & 0.0 & 0.0\\ \hline 
+%		\end{tabular}
+	\end{itemize}	
+	
+\end{document}
